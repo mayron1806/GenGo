@@ -1,37 +1,39 @@
 package config
 
 import (
-	"io"
 	"log"
 	"os"
 )
 
-const (
-	reset  = "\033[0m"
-	red    = "\033[31m"
-	green  = "\033[32m"
-	yellow = "\033[33m"
-	blue   = "\033[34m"
-)
-
 type Logger struct {
-	debug  *log.Logger
-	info   *log.Logger
-	warn   *log.Logger
-	err    *log.Logger
-	writer io.Writer
+	debug *log.Logger
+	info  *log.Logger
+	warn  *log.Logger
+	err   *log.Logger
+	file  *os.File
 }
 
+var logPath = "./.log"
+
 func NewLogger() *Logger {
-	writer := io.Writer(os.Stdout)
+	f, err := os.OpenFile(logPath, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0600)
+	if err != nil {
+		panic(err)
+	}
 
 	return &Logger{
-		writer: writer,
-		debug:  log.New(writer, blue+" [DEBUG] "+reset, 0),
-		info:   log.New(writer, green+" [INFO] "+reset, 0),
-		warn:   log.New(writer, yellow+" [WARN] "+reset, 0),
-		err:    log.New(writer, red+" [ERROR] "+reset, 0),
+		file:  f,
+		debug: log.New(f, " [DEBUG] ", log.LstdFlags),
+		info:  log.New(f, " [INFO]  ", log.LstdFlags),
+		warn:  log.New(f, " [WARN]  ", log.LstdFlags),
+		err:   log.New(f, " [ERROR] ", log.LstdFlags),
 	}
+}
+
+// Close fecha o arquivo de log.
+func (l *Logger) CloseLogger(msg *string) error {
+	os.Truncate(logPath, 0)
+	return l.file.Close()
 }
 
 func (l *Logger) Debug(v ...interface{}) {

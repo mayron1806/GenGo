@@ -1,0 +1,13 @@
+{
+  "dir": "./",
+  "global": false,
+  "name": "ola",
+  "templates": [
+    {
+      "name": "ola",
+      "version": "1.0.0",
+      "global": false,
+      "variables": []
+    }
+  ]
+}

@@ -1,26 +1,29 @@
 /*
 Copyright © 2024 NAME HERE <EMAIL ADDRESS>
 */
-package cmd
+package check
 
 import (
+	"github.com/mayron1806/gengo/config"
 	"github.com/mayron1806/gengo/constants"
 	"github.com/spf13/cobra"
 )
 
-// checkCmd represents the check command
-var checkCmd = &cobra.Command{
+var logger *config.Logger
+
+// CheckCmd represents the check command
+var CheckCmd = &cobra.Command{
 	Use:   "check",
 	Short: "Check if gengo is correctly installed",
 	Long:  `Check if gengo is correctly installed`,
 	Run: func(cmd *cobra.Command, args []string) {
 		err := constants.CheckConstants()
 		if err != nil {
-			// Logger.Warn(err)
+			logger.Warn(err)
 		}
 	},
 }
 
 func init() {
-	rootCmd.AddCommand(checkCmd)
+	logger = config.GetLogger()
 }

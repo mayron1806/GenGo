@@ -71,3 +71,13 @@ func GetOS() OS {
 	}
 	return os
 }
+
+var defaultGengoJson = `{
+	"version": "1.0.0",
+	"templates": []
+}
+`
+
+func GetDefaultGengoJson() string {
+	return defaultGengoJson
+}

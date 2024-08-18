@@ -8,13 +8,13 @@ const (
 	Mac     OS = "darwin"
 )
 
-var (
-	logger *Logger
-)
+var logger *Logger
 
-func InitConfig() {
-	logger = NewLogger()
-}
 func GetLogger() *Logger {
+	if logger != nil {
+		return logger
+	}
+
+	logger = NewLogger()
 	return logger
 }

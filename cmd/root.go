@@ -6,11 +6,14 @@ package cmd
 import (
 	"os"
 
+	"github.com/mayron1806/gengo/cmd/check"
+	i "github.com/mayron1806/gengo/cmd/init"
+	"github.com/mayron1806/gengo/cmd/template"
 	"github.com/mayron1806/gengo/config"
 	"github.com/spf13/cobra"
 )
 
-var Logger *config.Logger
+var logger *config.Logger
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
@@ -32,8 +35,8 @@ func Execute() {
 }
 
 func init() {
-	config.InitConfig()
-	Logger = config.GetLogger()
+	logger = config.GetLogger()
+	rootCmd.AddCommand(check.CheckCmd, i.InitCmd, template.TemplateCmd)
 	// Here you will define your flags and configuration settings.
 	// Cobra supports persistent flags, which, if defined here,
 	// will be global for your application.
